@@ -2,7 +2,16 @@
 .noUi-connect{
     background: rgba(101,188,0,1);
     opacity: .5;
-    height: 32px;
+    height: 16px;
+}
+.noUi-connect--new{
+    border-top: 4px solid black;
+}
+.noUi-connect--hi{
+    background: rgba(101,188,0,1);
+    opacity: .5;
+    height: 48px;
+    margin-top: -16px;
 }
 .noUi-target{
     background: none;
@@ -20,16 +29,23 @@
     color: transparent;/*rgba(101,188,0,1);*/
     font-weight: bold;
     border: 1px solid rgba(101,188,0,1);
-    margin-bottom: -36px;
+    margin-bottom: -34px;
     border-radius: 80px;
     min-width: 30px;
 }
 .slider{
     margin-top: 16px;
     position: absolute;
+    margin-left: 2px;
 }
-.wrap--full {
-    padding: 0;
+.slider--full{
+    margin-top: 16px;
+    position: absolute;
+    margin-left: 16px;
+}
+.wrap-slider--full {
+    padding-left: 0!important;
+    padding-right: 0!important;
 }
 
 .col-wg--base{

@@ -5,12 +5,12 @@
     </label>
 
     {% for bpOpt in breakpointOptions %}
-        <label class="wg-tab-label {{bpOpt}}-check">{{bpOpt}} <small>1</small><small>12</small></label>
+        <label class="wg-tab-label {{bpOpt}}-check">{{bpOpt}} <small class="wg-{{bpOpt}}-offset">1</small><small class="wg-{{bpOpt}}-width">12</small></label>
     {% endfor %}
 
     {% for bpOpt in breakpointOptions %}
         <section class="wg-section {{bpOpt}}-content">
-            <div class="wrap">
+            <div class="wrap wrap-slider">
                 <div class="row">
                     <div class="col--12-12">
                         <div class="wrap">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="slider {{bpOpt}} col--12-12" data-from="1" data-to="11"></div>
+                    <div class="slider {{bpOpt}} col--12-12" data-from="0" data-to="12"></div>
                 </div>
             </div>
         </section>
@@ -53,7 +53,7 @@
     {% endfor %}
 
     <textarea style="display:none;" rows="30" cols="150" class="wg-data" name="{{ name }}" placeholder="place holder here">{{ value }}</textarea>
-{{ value }}
+
     <label class="wg-tab-label-option wg-tab-label-option--right">
         New Row
         <input class="sel-row row-new" type="checkbox" name="row" value="1">
