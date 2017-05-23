@@ -59,15 +59,6 @@ It allows to give clean CSS classes coming from the welance-bs grid any block of
 * Read **[Welance Development Guidelines](https://welance-handbook.herokuapp.com/welance-development-guidelines.html)**
 * Follow the **Development** procedure to contribute
 
-
-- - -
-
-* When you need to refer to **static assets**, always reference like `/assets/[folder]/[folder_or_file].[extension]` in both HTML, SASS and JS files
-
-- - -
-
-1. Use exclusively `npm` to install new modules
-
 ## Who do I talk to?
 
 For more info you can ask [enrico](https://github.com/ricricucit/).
