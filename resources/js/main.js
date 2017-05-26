@@ -5,6 +5,8 @@ $(function() {
     var allSliders = [];
     // set main (global) OBJ for position
     var pos;
+    // set main (global) flag for breakpoint selection
+    var selectedBp;
     // set OBJ for position from DB
     var posFromDB = null;
     // set default OBJ for position
@@ -26,12 +28,13 @@ $(function() {
     // trigger default click on "open"
     $('.desktop-check').trigger('click');
 
-    $('.btn.add.icon').on('click', function(ev){
+    $('.btn').on('click', function(ev){
         initLayoutButton();
         initTabs();
-        initSliders();
+        initSliders(defaultPos);
         initCheckBoxes();
-        $('.desktop-check').trigger('click');
+        // trigger default click on "open"
+        $('.'+selectedBp+'-check').trigger('click');
     });
 
     // layout mode toggle
@@ -103,14 +106,14 @@ $(function() {
         });
     }
 
-    function initSliders(){
+    function initSliders(positionObj){
         // go through all the sliders of the (admin) page and set a noUIslider.js instance
         var sliders = $('.slider').not('.slider-created');
         for ( var i = 0; i < sliders.length; i++ ) {
             // remove the not-initiated class and add the initiated
             // to let the system know this has already been created
             // and shouldn't create this anymore
-            console.log(($(sliders[i]).removeClass('slider-not-created')).addClass('slider-created'));
+            $(sliders[i]).removeClass('slider-not-created').addClass('slider-created');
 
             // push every slider inside array to then have a reference to them
             allSliders.push(noUiSlider.create($(sliders[i])[0], {
@@ -136,7 +139,7 @@ $(function() {
                 setObjVals(val, $(this));
             });
             // get values
-            var initPos = getInitVals($(thisSlider));
+            var initPos = positionObj ? positionObj : getInitVals($(thisSlider));
             // and set the slider handles accordingly
             thisSlider.set([initPos.offset,initPos.width]);
         }
@@ -148,19 +151,23 @@ $(function() {
             if($(ev.target).hasClass('desktop-check')){
                 _hideAllBreakpoints();
                 $('.desktop-content').show();
+                selectedBp = 'desktop';
                 $('.wg-tab-label.desktop-check').addClass('wg-tab-label--selected');
             }else if($(ev.target).hasClass('mobile-check')){
                 _hideAllBreakpoints();
                 $('.mobile-content').show();
+                selectedBp = 'mobile';
                 $('.wg-tab-label.mobile-check').addClass('wg-tab-label--selected');
             }else if($(ev.target).hasClass('tablet-check')){
                 _hideAllBreakpoints();
                 $('.tablet-content').show();
+                selectedBp = 'tablet';
                 $('.wg-tab-label.tablet-check').addClass('wg-tab-label--selected');
             }else if($(ev.target).hasClass('wide-check')){
                 _hideAllBreakpoints();
-                $('.wg-tab-label.wide-check').addClass('wg-tab-label--selected');
                 $('.wide-content').show();
+                selectedBp = 'wide';
+                $('.wg-tab-label.wide-check').addClass('wg-tab-label--selected');
             }
         });
     }
