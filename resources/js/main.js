@@ -18,124 +18,151 @@ $(function() {
                             "full_width"            : false
                         };
 
-    // layout mode toggle
-    // this is to view all the sliders closer to each other
-    // and better play with the layout of the webpage
-    $('.wg-layout-mode').on('click', function(ev){
-        if(layoutMode === false){
-            $('.fields .field').siblings().not('*[id*=colWidth]').hide();
-            layoutMode = true;
-        }else{
-            $('.fields .field').siblings().show();
-            layoutMode = false;
-        }
-    });
+    initLayoutButton();
+    initTabs();
+    initSliders();
+    initCheckBoxes();
 
-    // open all tabs relative to the clicked tab on a "content block" from Matrix field
-    $('*[class*=-check]').on('click', function(ev){
-        if($(ev.target).hasClass('desktop-check')){
-            _hideAllBreakpoints();
-            $('.desktop-content').show();
-            $('.wg-tab-label.desktop-check').addClass('wg-tab-label--selected');
-        }else if($(ev.target).hasClass('mobile-check')){
-            _hideAllBreakpoints();
-            $('.mobile-content').show();
-            $('.wg-tab-label.mobile-check').addClass('wg-tab-label--selected');
-        }else if($(ev.target).hasClass('tablet-check')){
-            _hideAllBreakpoints();
-            $('.tablet-content').show();
-            $('.wg-tab-label.tablet-check').addClass('wg-tab-label--selected');
-        }else if($(ev.target).hasClass('wide-check')){
-            _hideAllBreakpoints();
-            $('.wg-tab-label.wide-check').addClass('wg-tab-label--selected');
-            $('.wide-content').show();
-        }
-    });
     // trigger default click on "open"
     $('.desktop-check').trigger('click');
 
-    // get all checkboxes with sel-row class
-    $('.sel-row').on('change', function(ev){
-        // get Position from the right place!
-        pos = _getPosFromCloseEl($(ev.target));
-
-        // "new row"" checkbox
-        if($(ev.target).hasClass('row-new')){
-            if($(ev.target).is(':checked')){
-                pos.new_row = true;
-            }else{
-                pos.new_row = false;
-            }
-        // "full width"" checkbox
-        }else if($(ev.target).hasClass('row-full-width')){
-            if($(ev.target).is(':checked')){
-                pos.full_width = true;
-            }else{
-                pos.full_width = false;
-            }
-        // "full height"" checkbox
-        }else if($(ev.target).hasClass('row-full-height')){
-            if($(ev.target).is(':checked')){
-                pos.full_height = true;
-            }else{
-                pos.full_height = false;
-            }
-        }
-
-        if(pos.full_height){
-            $(ev.target).closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--hi');
-        }else{
-            $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--hi');
-        }
-        if(pos.full_width){
-            $(ev.target).closest('.welance-grid').find('.wrap-slider').addClass('wrap-slider--full');
-            $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--full');
-        }else{
-            $(ev.target).closest('.welance-grid').find('.wrap-slider').removeClass('wrap-slider--full');
-            $(ev.target).closest('.welance-grid').find('.slider').removeClass('slider--full');
-        }
-        if(pos.new_row){
-            $(ev.target).closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--new');
-        }else{
-            $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--new');
-        }
-
-
-        // write obj inside "closest" textarea (textarea of current position block)
-        $(ev.target).closest('.welance-grid').find('.wg-data').val(JSON.stringify(pos));
+    $('.btn.add.icon').on('click', function(ev){
+        initLayoutButton();
+        initTabs();
+        initSliders();
+        initCheckBoxes();
+        $('.desktop-check').trigger('click');
     });
 
-    // go through all the sliders of the (admin) page and set a noUIslider.js instance
-    var sliders = $('.slider');
-    for ( var i = 0; i < sliders.length; i++ ) {
-        // push every slider inside array to then have a reference to them
-        allSliders.push(noUiSlider.create($(sliders[i])[0], {
-            start: [ $(sliders[i]).data('from'), $(sliders[i]).data('to') ],
-            step: 1,
-            behaviour: 'drag',
-            connect: true,
-            tooltips: true,
-            format: wNumb({
-                decimals: 0
-            }),
-            range: {
-                'min':  0,
-                'max':  12
+    // layout mode toggle
+    // this is to view all the sliders closer to each other
+    // and better play with the layout of the webpage
+    function initLayoutButton(){
+        $('.wg-layout-mode').on('click', function(ev){
+            if(layoutMode === false){
+                $('.fields .field').siblings().not('*[id*=colWidth]').hide();
+                layoutMode = true;
+            }else{
+                $('.fields .field').siblings().show();
+                layoutMode = false;
             }
-        }));
-
-        // get latest added slider (current)
-        var thisSlider = allSliders[allSliders.length-1];
-        // assign to current slider the action to change the OBJ "pos" (position)
-        thisSlider.on('change', function(val){
-            // set new values and change DOM accordingly
-            setObjVals(val, $(this));
         });
-        // get values
-        var initPos = getInitVals($(thisSlider));
-        // and set the slider handles accordingly
-        thisSlider.set([initPos.offset,initPos.width]);
+    }
 
+
+    function initCheckBoxes(){
+        // get all checkboxes with sel-row class
+        $('.sel-row').on('change', function(ev){
+            // get Position from the right place!
+            pos = _getPosFromCloseEl($(ev.target));
+
+            // "new row"" checkbox
+            if($(ev.target).hasClass('row-new')){
+                if($(ev.target).is(':checked')){
+                    pos.new_row = true;
+                }else{
+                    pos.new_row = false;
+                }
+            // "full width"" checkbox
+            }else if($(ev.target).hasClass('row-full-width')){
+                if($(ev.target).is(':checked')){
+                    pos.full_width = true;
+                }else{
+                    pos.full_width = false;
+                }
+            // "full height"" checkbox
+            }else if($(ev.target).hasClass('row-full-height')){
+                if($(ev.target).is(':checked')){
+                    pos.full_height = true;
+                }else{
+                    pos.full_height = false;
+                }
+            }
+
+            if(pos.full_height){
+                $(ev.target).closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--hi');
+            }else{
+                $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--hi');
+            }
+            if(pos.full_width){
+                $(ev.target).closest('.welance-grid').find('.wrap-slider').addClass('wrap-slider--full');
+                $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--full');
+            }else{
+                $(ev.target).closest('.welance-grid').find('.wrap-slider').removeClass('wrap-slider--full');
+                $(ev.target).closest('.welance-grid').find('.slider').removeClass('slider--full');
+            }
+            if(pos.new_row){
+                $(ev.target).closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--new');
+            }else{
+                $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--new');
+            }
+
+
+            // write obj inside "closest" textarea (textarea of current position block)
+            $(ev.target).closest('.welance-grid').find('.wg-data').val(JSON.stringify(pos));
+        });
+    }
+
+    function initSliders(){
+        // go through all the sliders of the (admin) page and set a noUIslider.js instance
+        var sliders = $('.slider').not('.slider-created');
+        for ( var i = 0; i < sliders.length; i++ ) {
+            // remove the not-initiated class and add the initiated
+            // to let the system know this has already been created
+            // and shouldn't create this anymore
+            console.log(($(sliders[i]).removeClass('slider-not-created')).addClass('slider-created'));
+
+            // push every slider inside array to then have a reference to them
+            allSliders.push(noUiSlider.create($(sliders[i])[0], {
+                start: [ $(sliders[i]).data('from'), $(sliders[i]).data('to') ],
+                step: 1,
+                behaviour: 'drag',
+                connect: true,
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0
+                }),
+                range: {
+                    'min':  0,
+                    'max':  12
+                }
+            }));
+
+            // get latest added slider (current)
+            var thisSlider = allSliders[allSliders.length-1];
+            // assign to current slider the action to change the OBJ "pos" (position)
+            thisSlider.on('change', function(val){
+                // set new values and change DOM accordingly
+                setObjVals(val, $(this));
+            });
+            // get values
+            var initPos = getInitVals($(thisSlider));
+            // and set the slider handles accordingly
+            thisSlider.set([initPos.offset,initPos.width]);
+        }
+    }
+
+    function initTabs(){
+        // open all tabs relative to the clicked tab on a "content block" from Matrix field
+        $('*[class*=-check]').on('click', function(ev){
+            if($(ev.target).hasClass('desktop-check')){
+                _hideAllBreakpoints();
+                $('.desktop-content').show();
+                $('.wg-tab-label.desktop-check').addClass('wg-tab-label--selected');
+            }else if($(ev.target).hasClass('mobile-check')){
+                _hideAllBreakpoints();
+                $('.mobile-content').show();
+                $('.wg-tab-label.mobile-check').addClass('wg-tab-label--selected');
+            }else if($(ev.target).hasClass('tablet-check')){
+                _hideAllBreakpoints();
+                $('.tablet-content').show();
+                $('.wg-tab-label.tablet-check').addClass('wg-tab-label--selected');
+            }else if($(ev.target).hasClass('wide-check')){
+                _hideAllBreakpoints();
+                $('.wg-tab-label.wide-check').addClass('wg-tab-label--selected');
+                $('.wide-content').show();
+            }
+        });
     }
 
     // set new values and change DOM accordingly
