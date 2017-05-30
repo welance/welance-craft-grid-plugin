@@ -11,16 +11,16 @@ $(function() {
     var posFromDB = null;
     // set default OBJ for position
     var defaultPos =   {
-                            "mobile":       {"offset"    : 0, "width" : 12},
-                            "desktop":      {"offset"    : 0, "width" : 12},
-                            "tablet":       {"offset"    : 0, "width" : 12},
-                            "wide":         {"offset"    : 0, "width" : 12},
+                            "mobile":       {"offset"    : 0, "width" : 12, "active" : false},
+                            "desktop":      {"offset"    : 0, "width" : 12, "active" : false},
+                            "tablet":       {"offset"    : 0, "width" : 12, "active" : false},
+                            "wide":         {"offset"    : 0, "width" : 12, "active" : false},
                             "new_row"               : false,
                             "full_height"           : false,
                             "full_width"            : false
                         };
 
-    initLayoutButton();
+    //initLayoutButton(); // removed due to a JS timeout in Craft that does not allow DOM modifications
     initTabs();
     initSliders();
     initCheckBoxes();
@@ -29,7 +29,7 @@ $(function() {
     $('.desktop-check').trigger('click');
 
     $('.btn').on('click', function(ev){
-        initLayoutButton();
+        //initLayoutButton(); // removed due to a JS timeout in Craft that does not allow DOM modifications
         initTabs();
         initSliders(defaultPos);
         initCheckBoxes();
@@ -40,17 +40,24 @@ $(function() {
     // layout mode toggle
     // this is to view all the sliders closer to each other
     // and better play with the layout of the webpage
-    function initLayoutButton(){
+
+    // IMPORTANT: Removed because it doesn't work in "preview mode"
+    // due to a JS timeout in Craft that does not allow DOM modifications
+    /*function initLayoutButton(){
         $('.wg-layout-mode').on('click', function(ev){
             if(layoutMode === false){
+                console.log("here",$('.lp-editor').find('.fields .field').siblings().not('*[id*=colWidth]'));
+
                 $('.fields .field').siblings().not('*[id*=colWidth]').hide();
+                $('.lp-editor').find('.fields .field').siblings().not('*[id*=colWidth]').attr('style','');
+                $('.lp-editor').find('.fields .field').siblings().not('*[id*=colWidth]').attr('style','display:none;');
                 layoutMode = true;
             }else{
                 $('.fields .field').siblings().show();
                 layoutMode = false;
             }
         });
-    }
+    }*/
 
 
     function initCheckBoxes(){
@@ -185,6 +192,7 @@ $(function() {
                 // set changes to global var "pos" (the global source of truth)
                 pos.desktop.offset = val[0];
                 pos.desktop.width = val[1];
+                pos.desktop.active = true;
                 // set the small numbers next to the right tab with the new value
                 $sliderEl.closest('.welance-grid').find('.wg-desktop-offset').html(pos.desktop.offset);
                 $sliderEl.closest('.welance-grid').find('.wg-desktop-width').html(pos.desktop.width);
@@ -192,6 +200,7 @@ $(function() {
                 // set changes to global var "pos" (the global source of truth)
                 pos.mobile.offset = val[0];
                 pos.mobile.width = val[1];
+                pos.mobile.active = true;
                 // set the small numbers next to the right tab with the new value
                 $sliderEl.closest('.welance-grid').find('.wg-mobile-offset').html(pos.mobile.offset);
                 $sliderEl.closest('.welance-grid').find('.wg-mobile-width').html(pos.mobile.width);
@@ -199,6 +208,7 @@ $(function() {
                 // set changes to global var "pos" (the global source of truth)
                 pos.tablet.offset = val[0];
                 pos.tablet.width = val[1];
+                pos.tablet.active = true;
                 // set the small numbers next to the right tab with the new value
                 $sliderEl.closest('.welance-grid').find('.wg-tablet-offset').html(pos.tablet.offset);
                 $sliderEl.closest('.welance-grid').find('.wg-tablet-width').html(pos.tablet.width);
@@ -206,6 +216,7 @@ $(function() {
                 // set changes to global var "pos" (the global source of truth)
                 pos.wide.offset = val[0];
                 pos.wide.width = val[1];
+                pos.wide.active = true;
                 // set the small numbers next to the right tab with the new value
                 $sliderEl.closest('.welance-grid').find('.wg-wide-offset').html(pos.wide.offset);
                 $sliderEl.closest('.welance-grid').find('.wg-wide-width').html(pos.wide.width);

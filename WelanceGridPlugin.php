@@ -50,4 +50,14 @@ class WelanceGridPlugin extends BasePlugin
     {
         return 'http://welance.de';
     }
+
+    /**
+     * return twig
+     */
+    public function addTwigExtension()
+    {
+        Craft::import('plugins.welancegrid.twigextensions.welancegridTwigExtension');
+
+        return new welancegridTwigExtension();
+    }
 }

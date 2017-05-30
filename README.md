@@ -43,21 +43,15 @@ It allows to give clean CSS classes coming from the welance-bs grid any block of
 
 **IMPORTANT:**
 
-To have the "layout mode" button work, whenever you add this new "postiion field" into the interfaces, make sure that [its handle name will include `colWidth`](http://i.imgur.com/yNRZz3Y.png) (case sensitive).
+To have the "layout mode" button work, whenever you add this new "postiion field" into the interfaces, make sure that [its handle is `colWidth`](http://i.imgur.com/yNRZz3Y.png) (case sensitive).
 
 **DO handle names**:
 
 * `colWidth`
-* `maincolWidth`
-* `maincolWidthExample`
-* `colWidthTitle`
 
 **DO NOT handle names**:
 
-* `mainColWidth`
-* `ColWidth`
-* `mainColWidthExample`
-* `Title`
+* anything different than `colWidth`
 
 ### Development
 
