@@ -39,7 +39,7 @@ class welancegridTwigExtension extends \Twig_Extension
         if(!unserialize($content)){
             return false;
         }else{
-            return json_decode(unserialize($content))->v_align ? json_decode(unserialize($content))->v_align : "top";
+            return isset(json_decode(unserialize($content))->v_align) ? json_decode(unserialize($content))->v_align : "top";
         }
     }
 
@@ -48,7 +48,7 @@ class welancegridTwigExtension extends \Twig_Extension
         if(!unserialize($content)){
             return false;
         }else{
-            return json_decode(unserialize($content))->full_width ? true : false;
+            return isset(json_decode(unserialize($content))->full_width) ? json_decode(unserialize($content))->full_width : false;
         }
     }
 
@@ -57,7 +57,7 @@ class welancegridTwigExtension extends \Twig_Extension
         if(!unserialize($content)){
             return false;
         }else{
-            return json_decode(unserialize($content))->new_row ? true : false;
+            return isset(json_decode(unserialize($content))->new_row) ? json_decode(unserialize($content))->new_row : false;
         }
     }
 
