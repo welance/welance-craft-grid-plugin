@@ -37,7 +37,7 @@ class welancegridTwigExtension extends \Twig_Extension
     public function v_align($content)
     {
         if(!unserialize($content)){
-            return false;
+            return "top";
         }else{
             return isset(json_decode(unserialize($content))->v_align) ? json_decode(unserialize($content))->v_align : "top";
         }
