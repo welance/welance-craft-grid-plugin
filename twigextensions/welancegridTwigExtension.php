@@ -19,7 +19,7 @@ class welancegridTwigExtension extends \Twig_Extension
         $methods = array(
             'new_row',
             'full_width',
-            'full_height',
+            'v_align',
             'mobile_class',
             'desktop_class',
             'tablet_class',
@@ -34,19 +34,31 @@ class welancegridTwigExtension extends \Twig_Extension
     }
 
 
-    public function full_height($content)
+    public function v_align($content)
     {
-        return json_decode(unserialize($content))->full_height ? true : false;
+        if(!unserialize($content)){
+            return false;
+        }else{
+            return json_decode(unserialize($content))->v_align ? json_decode(unserialize($content))->v_align : "top";
+        }
     }
 
     public function full_width($content)
     {
-        return json_decode(unserialize($content))->full_width ? true : false;
+        if(!unserialize($content)){
+            return false;
+        }else{
+            return json_decode(unserialize($content))->full_width ? true : false;
+        }
     }
 
     public function new_row($content)
     {
-        return json_decode(unserialize($content))->new_row;
+        if(!unserialize($content)){
+            return false;
+        }else{
+            return json_decode(unserialize($content))->new_row ? true : false;
+        }
     }
 
     public function mobile_class($content, $bp)

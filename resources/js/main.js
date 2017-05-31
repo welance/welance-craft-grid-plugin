@@ -16,14 +16,14 @@ $(function() {
                             "tablet":       {"offset"    : 0, "width" : 12, "active" : false},
                             "wide":         {"offset"    : 0, "width" : 12, "active" : false},
                             "new_row"               : false,
-                            "full_height"           : false,
-                            "full_width"            : false
+                            "full_width"            : false,
+                            "v_align"               : "top"
                         };
 
     //initLayoutButton(); // removed due to a JS timeout in Craft that does not allow DOM modifications
     initTabs();
     initSliders();
-    initCheckBoxes();
+    initGlobals();
 
     // trigger default click on "open"
     $('.desktop-check').trigger('click');
@@ -32,7 +32,7 @@ $(function() {
         //initLayoutButton(); // removed due to a JS timeout in Craft that does not allow DOM modifications
         initTabs();
         initSliders(defaultPos);
-        initCheckBoxes();
+        initGlobals();
         // trigger default click on "open"
         $('.'+selectedBp+'-check').trigger('click');
     });
@@ -60,9 +60,34 @@ $(function() {
     }*/
 
 
-    function initCheckBoxes(){
-        // get all checkboxes with sel-row class
-        $('.sel-row').on('change', function(ev){
+    function initGlobals(){
+
+        //get all vertical alignment dropdowns and init them
+        $('.wg-sel-v-align').on('change', function(ev){
+            pos = _getPosFromCloseEl($(ev.target));
+            pos.v_align = $(ev.target).val();
+            console.log(pos);
+
+            switch(pos.v_align){
+                case "top":
+                    $(ev.target).closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--top');
+                    break;
+                case "center":
+                    $(ev.target).closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--center');
+                    break;
+                case "bottom":
+                    $(ev.target).closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--bottom');
+                    break;
+            }
+            // write obj inside "closest" textarea (textarea of current position block)
+            $(ev.target).closest('.welance-grid').find('.wg-data').val(JSON.stringify(pos));
+        });
+
+        // get all checkboxes with wg-sel-row class
+        $('.wg-sel-row').on('change', function(ev){
             // get Position from the right place!
             pos = _getPosFromCloseEl($(ev.target));
 
@@ -80,20 +105,8 @@ $(function() {
                 }else{
                     pos.full_width = false;
                 }
-            // "full height"" checkbox
-            }else if($(ev.target).hasClass('row-full-height')){
-                if($(ev.target).is(':checked')){
-                    pos.full_height = true;
-                }else{
-                    pos.full_height = false;
-                }
             }
 
-            if(pos.full_height){
-                $(ev.target).closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--hi');
-            }else{
-                $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--hi');
-            }
             if(pos.full_width){
                 $(ev.target).closest('.welance-grid').find('.wrap-slider').addClass('wrap-slider--full');
                 $(ev.target).closest('.welance-grid').find('.slider').addClass('slider--full');
@@ -106,7 +119,6 @@ $(function() {
             }else{
                 $(ev.target).closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--new');
             }
-
 
             // write obj inside "closest" textarea (textarea of current position block)
             $(ev.target).closest('.welance-grid').find('.wg-data').val(JSON.stringify(pos));
@@ -268,16 +280,28 @@ $(function() {
                 $sliderEl.closest('.welance-grid').find('.wg-wide-offset').html(pos.wide.offset);
                 $sliderEl.closest('.welance-grid').find('.wg-wide-width').html(pos.wide.width);
             }
-            // set "global" (to context "block") checkboxes for row: width, height, new
+            // set "global" (to context "block") checkboxes for row: width, new, vertical alignment
             $sliderEl.closest('.welance-grid').find('.row-new').prop('checked', pos.new_row);
             $sliderEl.closest('.welance-grid').find('.row-full-width').prop('checked', pos.full_width);
-            $sliderEl.closest('.welance-grid').find('.row-full-height').prop('checked', pos.full_height);
+            $sliderEl.closest('.welance-grid').find('.wg-sel-v-align').val(pos.v_align);
 
-            if(pos.full_height){
-                $sliderEl.closest('.welance-grid').find('.noUi-connect').addClass('noUi-connect--hi');
-            }else{
-                $sliderEl.closest('.welance-grid').find('.noUi-connect').removeClass('noUi-connect--hi');
+            switch(pos.v_align){
+                case "top":
+                    $sliderEl.closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $sliderEl.closest('.welance-grid').find('.slider').addClass('slider--top');
+                    break;
+                case "center":
+                    $sliderEl.closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $sliderEl.closest('.welance-grid').find('.slider').addClass('slider--center');
+                    break;
+                case "bottom":
+                    $sliderEl.closest('.welance-grid').find('.slider').removeClass('slider--top slider--center slider--bottom');
+                    $sliderEl.closest('.welance-grid').find('.slider').addClass('slider--bottom');
+                    break;
+                default:
+                    break;
             }
+
             if(pos.full_width){
                 $sliderEl.closest('.welance-grid').find('.wrap-slider').addClass('wrap-slider--full');
                 $sliderEl.closest('.welance-grid').find('.slider').addClass('slider--full');

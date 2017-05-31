@@ -52,18 +52,23 @@
         </section>
     {% endfor %}
 
-    <textarea style="display:none;" rows="30" cols="150" class="wg-data" name="{{ name }}" placeholder="place holder here">{{ value }}</textarea>
+    <textarea style="" rows="30" cols="150" class="wg-data" name="{{ name }}" placeholder="place holder here">{{ value }}</textarea>
 
     <label class="wg-tab-label-option wg-tab-label-option--right">
         New Row
-        <input class="sel-row row-new" type="checkbox" name="row" value="1">
+        <input class="wg-sel-row row-new" type="checkbox" name="row" value="1">
     </label>
     <label class="wg-tab-label-option wg-tab-label-option--right">
         Extra Wide
-        <input class="sel-row row-full-width" type="checkbox" name="row" value="1">
+        <input class="wg-sel-row row-full-width" type="checkbox" name="row" value="1">
     </label>
     <label class="wg-tab-label-option wg-tab-label-option--right">
-        Full Height
-        <input class="sel-row row-full-height" type="checkbox" name="row" value="1">
+        Vertical Alignment
+        <select class="wg-sel-v-align" name="v-align"> <!--Supplement an id here instead of using 'name'-->
+            <option value="top" selected>Top</option>
+            <option value="center">Center</option>
+            <option value="bottom">Bottom</option>
+        </select>
     </label>
+
 </main>

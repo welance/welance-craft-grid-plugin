@@ -35,9 +35,18 @@
     min-width: 30px;
 }
 .slider{
-    margin-top: 16px;
+    margin-top: 8px;
     position: absolute;
     margin-left: 2px;
+}
+.slider--top{
+    margin-top: 8px;
+}
+.slider--center{
+    margin-top: 16px;
+}
+.slider--bottom{
+    margin-top: 24px;
 }
 .slider--full{
     width: 103%!important;
