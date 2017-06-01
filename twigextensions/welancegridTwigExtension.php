@@ -24,6 +24,7 @@ class welancegridTwigExtension extends \Twig_Extension
             'desktop_class',
             'tablet_class',
             'wide_class',
+            'dark_or_light'
         );
 
         foreach ($methods as $methodName) {
@@ -128,6 +129,15 @@ class welancegridTwigExtension extends \Twig_Extension
         }else{
             return "col col--12-12";
         }
+    }
+
+
+    public function dark_or_light($hexColor, $class)
+    {
+        $hexColor = ltrim($hexColor, '#');
+        $rgb      = str_split($hexColor, 2);
+
+        return hexdec($rgb[0])*0.299 + hexdec($rgb[1])*0.587 + hexdec($rgb[2])*0.114 > 186 ? $class . "--dark" : $class . "--light";
     }
 
     private static function _generateClass($offset, $width, $bp){
